@@ -48,16 +48,17 @@ typedef pair<ld, ld> pld;
 
 const ll inf = 1e9, MOD = 1e9 + 7;
 
+const int MAXN = 4e5 + 1;
+
 class Solution {
     private:
+        int hide[MAXN];
     public:
         // WRITE YOUR SOLUTION HERE
         void
         solve() {
             int n, k;
             cin >> n >> k;
-            vector<int> hide(k, 0);
-            vector<int> prefix_sum(k + 1, 0);
             int i = 0;
 
             while (i < k) {
@@ -66,31 +67,22 @@ class Solution {
                 i++;
             }
 
-            sort(hide.begin(), hide.end());
-            // prefix[i] = sum[0,i)
+            sort(hide, hide + k);
 
-            prefix_sum[0] = 0;
-            FOR(i, 1, k + 1) {
-                prefix_sum[i] = prefix_sum[i - 1] + hide[i - 1];
-            }
-            int num = save_mice(hide, prefix_sum, n);
-            cout << num << endl;
-        }
-
-        int
-        save_mice(vector<int> &hide, vector<int> &prefix_sum, int &n) {
-            int len = hide.size();
+            int sum = hide[0];
             int count = 1;
-            FOR(i, 1, len) {
-                if (prefix_sum[i] >= n - hide[i]) {
+            FOR(i, 1, k) {
+
+                if (sum >= n - hide[i]) {
                     break;
                 }
 
+                sum += hide[i];
                 count++;
             }
-
-            return count;
+            cout << count << endl;
         }
+
 };
 
 int
