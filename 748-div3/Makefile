@@ -15,6 +15,10 @@ b: b.o
 	$(CC) $(CFLAGS) -o $@ $+
 	./b
 
+c: c.o
+	$(CC) $(CFLAGS) -o $@ $+
+	./c
+
 clean:
 	rm -f *.o
 
