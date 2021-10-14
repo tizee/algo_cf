@@ -1,6 +1,6 @@
-.PHONY:  all, clean, mrproper,a,b
-CC = g++
-CFLAGS = -g -Wall -std=c++11
+.PHONY: all, clean, mrproper
+CC = clang++
+CFLAGS = -g -Wall -std=gnu++17
 
 all: a b
 

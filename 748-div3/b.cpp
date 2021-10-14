@@ -2,9 +2,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
-#include <cmath>
 #include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cassert>
+#include <climits>
 
 using namespace std;
 
@@ -48,64 +52,65 @@ typedef pair<ld, ld> pld;
 const ll inf = 1e9, MOD = 1e9 + 7;
 
 class Solution {
-private:
-public:
-    // WRITE YOUR SOLUTION HERE
-    void
-    solve() {
-        string s;
-        cin >> s;
-        reverse(s.begin(), s.end());
-        // 50 75 25 100
-        cout << find25s(s) << endl;
-    }
-
-    int
-    find25s(string &s) {
-        // 05 00 57 52
-        int steps = INT_MAX;
-        int first0 = 0, first5 = 0;
-        int n = s.size();
-        // state
-        // 0 -> 5 or 0 -> 0
-        int i = 0, state = 0;
-
-        while (i < n) {
-            if (state==0&&s[i] == '0') {
-                state = 1;
-                first0=i;
-                i++;
-            } else if (state == 0) {
-                i++;
-            } else if (state == 1 && (s[i] == '5' || s[i] == '0')) {
-                // no leading zero
-                steps = min(i - first0 - 1 + first0, steps);
-                break;
-            } else {
-                i++;
-            }
+    private:
+    public:
+        // WRITE YOUR SOLUTION HERE
+        void
+        solve() {
+            string s;
+            cin >> s;
+            reverse(s.begin(), s.end());
+            // 50 75 25 100
+            cout << find25s(s) << endl;
         }
 
-        // 5 -> 7 or 5 -> 2
-        i=0,state=0;
-        while (i < n) {
-            if (state==0&&s[i] == '5') {
-                state = 1;
-                first5=i;
-                i++;
-            } else if (state == 0) {
-                i++;
-            } else if (state == 1 && (s[i] == '7' || s[i] == '2')) {
-                // no leading zero
-                steps = min(i - first5 - 1 + first5, steps);
-                break;
-            } else {
-                i++;
-            }
-        }
+        int
+        find25s(string &s) {
+            // 05 00 57 52
+            int steps = INT_MAX;
+            int first0 = 0, first5 = 0;
+            int n = s.size();
+            // state
+            // 0 -> 5 or 0 -> 0
+            int i = 0, state = 0;
 
-        return steps;
-    }
+            while (i < n) {
+                if (state == 0 && s[i] == '0') {
+                    state = 1;
+                    first0 = i;
+                    i++;
+                } else if (state == 0) {
+                    i++;
+                } else if (state == 1 && (s[i] == '5' || s[i] == '0')) {
+                    // no leading zero
+                    steps = min(i - first0 - 1 + first0, steps);
+                    break;
+                } else {
+                    i++;
+                }
+            }
+
+            // 5 -> 7 or 5 -> 2
+            i = 0, state = 0;
+
+            while (i < n) {
+                if (state == 0 && s[i] == '5') {
+                    state = 1;
+                    first5 = i;
+                    i++;
+                } else if (state == 0) {
+                    i++;
+                } else if (state == 1 && (s[i] == '7' || s[i] == '2')) {
+                    // no leading zero
+                    steps = min(i - first5 - 1 + first5, steps);
+                    break;
+                } else {
+                    i++;
+                }
+            }
+
+            return steps;
+        }
 };
 
 /* #define OJ_TEST */
@@ -131,6 +136,6 @@ main() {
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed =
         std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-    cerr << "Time spent: " << elapsed.count() * 1e-9 << "seconds.\n";
+    cerr << "Time spent: " << elapsed.count() * 1e-6 << " ms.\n";
     return 0;
 }
