@@ -143,7 +143,6 @@ namespace fastio {
 
 }
 using fastio::in;
-using fastio::out;
 
 const ll inf = 1e9, MOD = 1e9 + 7;
 
@@ -151,7 +150,6 @@ constexpr int MAXN = 4e5 + 1;
 int hide[MAXN];
 
 namespace {
-// WRITE YOUR SOLUTION HERE
     inline void
     solve() {
         int n, k;

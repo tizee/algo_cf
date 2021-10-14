@@ -2,9 +2,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
-#include <cmath>
 #include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cassert>
+#include <climits>
 
 using namespace std;
 
@@ -47,37 +51,42 @@ typedef pair<ld, ld> pld;
 const ll inf = 1e9, MOD = 1e9 + 7;
 
 class Solution {
-private:
-public:
-  // WRITE YOUR SOLUTION HERE
-  void solve() {
-    int a, b, c;
-    cin >> a >> b >> c;
-    cout << max(0, max(b, c) - a + 1) << " ";
-    cout << max(0, max(a, c) - b + 1) << " ";
-    cout << max(0, max(a, b) - c + 1) << endl;
-  }
+    private:
+    public:
+        // WRITE YOUR SOLUTION HERE
+        void
+        solve() {
+            int a, b, c;
+            cin >> a >> b >> c;
+            cout << max(0, max(b, c) - a + 1) << " ";
+            cout << max(0, max(a, c) - b + 1) << " ";
+            cout << max(0, max(a, b) - c + 1) << endl;
+        }
 };
 
-int main() {
-  auto start = std::chrono::high_resolution_clock::now();
+int
+main() {
 
-#ifdef OJ_TEST
-  freopen("testa/1", "r", stdin);
-  freopen("testa/1.test.out", "w", stdout);
+#ifndef OJ_TEST
+    freopen("testa/1", "r", stdin);
+    freopen("testa/1.test.out", "w", stdout);
+    auto start = std::chrono::high_resolution_clock::now();
 #endif
 
-  FASTIO;
-  Solution ans;
-  int t = 1;
-  cin >> t;
-  while (t--) {
-    ans.solve();
-  }
+    FASTIO;
+    Solution ans;
+    int t = 1;
+    cin >> t;
 
-  auto end = std::chrono::high_resolution_clock::now();
-  auto elapsed =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-  cerr << "Time spent: " << elapsed.count() * 1e-9 << "seconds.\n";
-  return 0;
+    while (t--) {
+        ans.solve();
+    }
+
+#ifndef OJ_TEST
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+    cerr << "Time spent: " << elapsed.count() * 1e-6 << " ms" << endl;
+#endif
+    return 0;
 }
