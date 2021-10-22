@@ -19,6 +19,18 @@ c: c.o
 	$(CC) $(CFLAGS) -o $@ $+
 	./c
 
+d1: d1.o
+	$(CC) $(CFLAGS) -o $@ $+
+	./d1
+
+e: e.o
+	$(CC) $(CFLAGS) -o $@ $+
+	./e
+
+f: f.o
+	$(CC) $(CFLAGS) -o $@ $+
+	./f
+
 clean:
 	rm -f *.o
 
