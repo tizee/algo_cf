@@ -156,75 +156,70 @@ namespace fastio {
 using fastio::in;
 
 const ll inf = 1e9, MOD = 1e9 + 7;
+const int N = 4 * 1e5 + 5;
 
-class Node {
-    public:
-        int degree = 0;
-        int dist = -1;
-        vector<Node*> adj;
-        friend ostream&
-        operator<<(ostream &s, const Node &n) {
-            s << "degree => " << n.degree << " ";
-            s << "dist=> " << n.dist << " ";
-            s << "adj size=> " << n.adj.size() << " ";
-            return s;
-        };
-};
+int n, k, cnt, e[N * 2 + 1], head[N], din[N], nxt[N * 2 + 1], dist[N];
 
 namespace {
+    inline void
+    addEdge(int x, int y) {
+        e[++cnt] = y;
+        nxt[cnt] = head[x];
+        head[x] = cnt;
+    }
     inline void
     solve() {
         int n, k;
         in(n, k);
         int u, v;
-
-        vector<Node> nodes(n, Node());
-        deque<Node*> bfs;
+        cnt = 0;
+        FOR(i, 1, n + 1) din[i] = dist[i] = head[i] = nxt[cnt] = 0;
 
         FOR(i, 1, n) {
             in(u, v);
-            u = u - 1;
-            v = v - 1;
-            nodes[u].adj.push_back(&nodes[v]);
-            nodes[v].adj.pb(&nodes[u]);
+            addEdge(u, v);
+            addEdge(v, u);
+            din[u]++;
+            din[v]++;
         }
 
-        FR(i, n) {
-            if(nodes[i].adj.size() < 2) {
-                bfs.pb(&nodes[i]);
-                nodes[i].dist = 0;
+        deque<int> bfs;
+
+        FOR(i, 1, n + 1) {
+            if(din[i] == 1) {
+                bfs.pb(i);
+                dist[i] = 1;
             }
         }
 
         // dist represents the number of operation needed to remove
         while(!bfs.empty()) {
-            Node* first = bfs.front();
+            int x = bfs.front();
             bfs.pop_front();
-            FR(i, first->adj.size()) {
-                if(first->adj[i]->dist != -1) {
-                    continue;
-                } else {
-                    first->adj[i]->degree++;
 
-                    if(first->adj[i]->adj.size() - first->adj[i]->degree <= 1) {
-                        // at most one node
-                        first->adj[i]->dist = first->dist + 1;
-                        bfs.push_back(first->adj[i]);
-                    }
+            for(int i = head[x]; i != 0; i = nxt[i]) {
+                int y = e[i];
+
+                if(din[y] == 1) {
+                    continue;
+                }
+
+                if(--din[y] == 1) {
+                    dist[y] = dist[x] + 1;
+                    bfs.push_back(y);
                 }
             }
         }
 
-        // init graph
+        int res = 0;
 
-        vi count_dist(n + 1, 0);
-        FR(i, n) {
-            count_dist[nodes[i].dist]++;
+        FOR(i, 1, n + 1) {
+            if(dist[i] > k) {
+                res++;
+            }
         }
-        FOR(i, 1, count_dist.size()) count_dist[i] += count_dist[i - 1];
 
-
-        cout << n - count_dist[k < n ? k - 1 : n - 1] << endl;
+        cout << res << endl;
 
     }
 
